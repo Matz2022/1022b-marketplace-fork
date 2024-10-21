@@ -19,3 +19,7 @@ id BIGINT PRIMARY KEY AUTO_INCREMENT,
 );
 
 INSERT INTO `defaultdb`.`usuarios` (`id`, `nome`, `email`, `created_at`, `updated_at`) VALUES ('1', 'Mateus', 'mateus@gmail.com', '2024-10-21 07:40', '2024-11-22 07:41');
+
+INSERT INTO `defaultdb`.`usuarios` (`id`, `nome`, `email`, `created_at`, `updated_at`) VALUES ('2', 'Felipe Brito', 'felipe@gmail.com', '2024-10-22 07:45', '2024-10-24 07:31');
+
+INSERT INTO `defaultdb`.`usuarios` (`id`, `nome`, `email`, `created_at`, `updated_at`) VALUES ('3', 'Marcos Neto', 'Marcos.neto@gmail.com', '2024-10-23 10:50', '2024-12-25 14:20');
