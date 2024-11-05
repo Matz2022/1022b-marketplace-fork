@@ -73,6 +73,48 @@ app.get("/usuarios", async (req, res) => {
     }
 });
 
+/*-----------------------------------------------------------*/
+
+// Inserindo um produto no Back-end:
+
+
+app.post("/produtos", async(req,res)=>{
+    
+    // ok PASSO 1: Criar um banco de dados 
+ 
+    // PASSO 2: Usar a lib mysql2 para conectar o banco
+    try{
+     const conexao = await mysql.createConnection({
+         /*OPERADOR TERNÁRIO*/
+         host: process.env.dbhost?process.env.dbhost: "localhost",
+         user: process.env.dbuser?process.env.dbuser: "root",
+         password: process.env.dbpassword?process.env.dbpassword: "",
+         database: process.env.dbname?process.env.dbname: "banco1022b",
+         port: process.env.dbport?parseInt(process.env.dbport): 3306
+     })
+      // PASSO 3: QUERY -> SELECT * FROM produtos
+      const {id,nome,descricao,preco,imagem} = req.body 
+    const [result,filds] = await conexao.query("INSERT INTO produtos VALUES (?,?,?,?,?)", [id,nome,descricao,preco,imagem])
+    
+    await conexao.end()
+ 
+     res.send(result)
+ }catch(e){
+    console.log(e)
+     res.status(500).send("Erro do servidor")
+ }
+   
+ 
+    // PASSO 4: Colocar os dados do banco no response
+ 
+     
+    
+ })
+
+
+
+
+
 
 
 
