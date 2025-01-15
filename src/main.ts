@@ -15,11 +15,12 @@ app.use(cors())
 //ROTAS
 
 import BancoMysql from './db/bancoMysql'
+import BancoMongo from './db/bancoMongo'
 
 app.get("/produtos",async(req,res)=>{
     try{
-        const banco = new BancoMysql();
-        const result = await banco.query("SELECT * FROM produtos")
+        const banco = new BancoMongo();
+        const result = await banco.listar()
         console.log(result)
         await banco.end()
         res.send(result)
@@ -33,12 +34,10 @@ app.post("/produtos",async(req,res)=>{
     try{
         const {id,nome,descricao,preco,imagem} = req.body
         
-        const banco = new BancoMysql();
+        const banco = new BancoMongo();
         
-        const sqlString  = "INSERT INTO produtos VALUES (?,?,?,?,?)"
-        const parametros = [id,nome,descricao,preco,imagem]
-
-        const result = await banco.query(sqlString,parametros)
+        const produto = {id,nome,descricao,preco,imagem}
+        const result = await banco.inserir(produto)
         console.log(result)
         
         await banco.end()
@@ -56,12 +55,12 @@ app.post("/produtos",async(req,res)=>{
 
 app.delete("/produtos/:id",async (req,res) =>{
     try{
-        const banco = new BancoMysql();
+        const banco = new BancoMongo();
 
         const sqlQuery = "DELETE FROM produtos WHERE id = ?"
         const parametro = [req.params.id]
 
-        const result = await banco.query(sqlQuery,parametro)
+        const result = await banco.excluir(req.params.id)
         
 
         res.status(200).send(result)
@@ -85,12 +84,12 @@ app.delete("/produtos/:id",async (req,res) =>{
 app.put("/produtos/:id", async (req,res) =>{
     try{
         const {nome,descricao,preco,imagem} = req.body
-        const banco = new BancoMysql();
+        const banco = new BancoMongo();
 
-        const sqlQuery = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, imagem = ? WHERE id = ?"
-        const parametro = [nome, descricao, preco, imagem, req.params.id]
+        //const sqlQuery = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, imagem = ? WHERE id = ?"
+        const produto = {nome, descricao, preco, imagem}
 
-        const result = await banco.query(sqlQuery,parametro)
+        const result = await banco.alterar(req.params.id, produto)
         res.status(200).send(result)
 
 
