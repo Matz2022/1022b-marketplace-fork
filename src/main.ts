@@ -70,7 +70,7 @@ app.delete("/produtos/:id",async (req,res) =>{
     }  
 
     console.log("Tentando excluir o produto de id:", req.params.id)
-    res.send("Tentando excluir o produto de id:" + req.params.id)
+    
 })
 
 
